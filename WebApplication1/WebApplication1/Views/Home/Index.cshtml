@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>WebForm</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="~/Content/form.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+         <div class="container">
+             <a class="navbar-brand" href="#">Nav Bar</a>
+             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                 <span class="navbar-toggler-icon"></span>
+             </button>
+             <div class="collapse navbar-collapse" id="navbarResponsive">
+                 <ul class="navbar-nav ml-auto">
+                     <li class="nav-item active">
+                         <a class="nav-link" href="#">
+                             Home
+                             <span class="sr-only">(current)</span>
+                         </a>
+                     </li>
+                     <li class="nav-item">
+                         <a class="nav-link" href="#">About</a>
+                     </li>
+                     <li class="nav-item">
+                         <a class="nav-link" href="#">Services</a>
+                     </li>
+                     <li class="nav-item">
+                         <a class="nav-link" href="#">Contact</a>
+                     </li>
+                 </ul>
+             </div>
+         </div>
+     </nav>
+      
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1 class="mt-5">ASP .NET Web MVC Example</h1>
+                <p class="lead">This is a web application implemented by bootstrap and C#</p>
+                <div>
+                    
+                    <form action="#" method="post">
+                        姓名<textarea style="margin: 1px 0 2px" name="UserName"> </textarea> <br />
+                        年龄<textarea type="text" style="margin: 1px 0 2px" name="Age"> </textarea><br />
+                        地址<textarea type="text" style="margin: 1px 0 2px" name="Address"> </textarea><br />
+                        性别<textarea type="radio" style="margin: 1px 0 2px" name="Gender"></textarea><br />
+                        <button type="submit" value="Save"> Submit</button>
+                    </form>
+                    <form>
+                     
+
+
+                        <li>
+
+                            <input type="radio" id="male" name="XX">男
+                            <input type="radio" id="female" name="XX">女
+                        </li>
+
+                        <li>
+
+
+                            <select id="age">
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                                <option value="25">25</option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28</option>
+
+                            </select>
+                        </li>
+
+                        <li>
+                            地址
+                            <select id="province" onchange="cityAdd(this.value);">
+                                <option value="0" selected="selected">--请选择--</option>
+                                <option value="河南">河南</option>
+                                <option value="浙江">浙江</option>
+                                <option value="江苏">江苏</option>
+                                <option value="台湾">台湾</option>
+
+                            </select>
+
+                            <select id="city">
+                            </select>
+                        </li>
+                        <button>Submit</button>
+
+                    </form>
+                </div>
+                <ul class="list-unstyled">
+                    <li>Bootstrap 4.5.0</li>
+                    <li>jQuery 3.5.1</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="~/Content/vendor/jquery/jquery.slim.min.js"></script>
+    <!--
+        <script src="~/Content/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    -->
+</body>
+
+</html>
