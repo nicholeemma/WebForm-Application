@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "09dqdXfL+fTxgdyyTv+hpyo7FMfx8I1pJcZBWet022SFfaA/rilsEeN9ey+5KKtS/4YLYYiLAUUqVkd26lx4Wg==",
+  "dgSpecHash": "MeZU/qEKJ/0Lb1IsGHJbMgAw0sC3kejiZGwHp82fYSRszqndOTtlhX4Rh6SUm3JvIdfOtWTxEA2BoA3vbOV7ig==",
   "success": true,
-  "projectFilePath": "C:\\Users\\hp-ya\\source\\repos\\WebApplication1\\ClassLibrary1\\ClassLibrary1.csproj",
+  "projectFilePath": "C:\\Users\\hp-ya\\source\\repos\\WebForm-Application\\WebApplication1\\ClassLibrary1\\ClassLibrary1.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hp-ya\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\hp-ya\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"

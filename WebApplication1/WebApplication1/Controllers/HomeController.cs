@@ -1,4 +1,5 @@
 ﻿using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,6 +8,7 @@ using System.Data.SqlClient;
 using WebApplication1.Models;
 using Newtonsoft.Json;
 using System.IO;
+using System.Configuration;
 
 namespace WebApplication1.Controllers
 {
@@ -14,23 +16,25 @@ namespace WebApplication1.Controllers
     {
         public ActionResult Index()
         {   //*** 联数据库
-            SqlConnection sqlconn = new SqlConnection();
+          //  SqlConnection sqlconn = new SqlConnection();
             // 一定是从配置文件读的 connectionstring
             // Data source: server name （localhost）数据库服务器的名字
             // Initial catalog： 数据库名字
             // SSPi 凡是能登录机器 就可以连数据库
             // 添加新的账户 如何添加sa账户
-            sqlconn.ConnectionString = "Data Source=DESKTOP-VL3NCF2;Initial Catalog=user;Integrated Security=SSPI;";
+           // sqlconn.ConnectionString = "Data Source=DESKTOP-VL3NCF2;Initial Catalog=user;Integrated Security=SSPI;";
             // sqlconn.Open();
-           /** if (sqlconn.State == System.Data.ConnectionState.Open)
-            {
-                // 写到日志里 nlog 一个框架   读写日志的代码也是共用的方法
-                Response.Write("<Script>alert('connected')</Script>");
-            } **/
+            /** if (sqlconn.State == System.Data.ConnectionState.Open)
+             {
+                 // 写到日志里 nlog 一个框架   读写日志的代码也是共用的方法
+                 Response.Write("<Script>alert('connected')</Script>");
+             } **/
             //mvc  code first 不给用 要用code改表结构不方便  一般来说用脚本
             // 如何读写数据库 select * ... 
             // 公司的做法：*** stored procedure (SP), sql写到C#代码（不推荐）
             // sql command
+
+            
 
             ViewBag.Submitted = false;
             var created = false;
@@ -46,12 +50,28 @@ namespace WebApplication1.Controllers
                 var age = Request.Form["Age"];
                 var id = 1;
 
-                string MyInsert = "insert into dbo.user_table(UserId, UserName, Age, Address, Gender)values('" + id + "','" + name + "','" + age + "','" + address + "','" + gender + "')";
-                SqlCommand MyCommand = new SqlCommand(MyInsert, sqlconn);
+                // Assumes connectionString is a valid connection string.
+                Console.WriteLine(ConfigurationManager.ConnectionStrings["dbConnStr"].ConnectionString);
+                String connectionString = "Data Source=DESKTOP-VL3NCF2;Initial Catalog=user;Integrated Security=SSPI;";
+               // string connectionString = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["db"].ConnectionString;
+               using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    // Do work here.  
+                    if (connection.State == System.Data.ConnectionState.Open)
+                    {
+                        // 写到日志里 nlog 一个框架   读写日志的代码也是共用的方法
+                        Response.Write("<Script>alert('connected')</Script>");
+                        string MyInsert = "insert into dbo.user_table(UserId, UserName, Age, Address, Gender)values('" + id + "','" + name + "','" + age + "','" + address + "','" + gender + "')";
+                        SqlCommand MyCommand = new SqlCommand(MyInsert, connection);
+                    }
+                }
+
+                /**
 
                 try//异常处理
                 {
-                    sqlconn.Open();
+                    connection.Open();
                     MyCommand.ExecuteNonQuery();
                     sqlconn.Close();
                 }
@@ -59,7 +79,7 @@ namespace WebApplication1.Controllers
                 {
                     Console.WriteLine("{0} Exception caught.", ex);
                 }
-
+                **/
                 // Create a new Client for these details.
                 Employee client = new Employee()
                 {
@@ -71,6 +91,7 @@ namespace WebApplication1.Controllers
                 };
 
                 // Save the client in the ClientList
+
                 var ClientFile = Employee.UserFile;
                 var ClientData = System.IO.File.ReadAllText(ClientFile);
                 List<Employee> ClientList = new List<Employee>();

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hp-ya\\source\\repos\\WebApplication1\\ClassLibrary1\\ClassLibrary1.csproj": {}
+    "C:\\Users\\hp-ya\\source\\repos\\WebForm-Application\\WebApplication1\\ClassLibrary1\\ClassLibrary1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hp-ya\\source\\repos\\WebApplication1\\ClassLibrary1\\ClassLibrary1.csproj": {
+    "C:\\Users\\hp-ya\\source\\repos\\WebForm-Application\\WebApplication1\\ClassLibrary1\\ClassLibrary1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hp-ya\\source\\repos\\WebApplication1\\ClassLibrary1\\ClassLibrary1.csproj",
+        "projectUniqueName": "C:\\Users\\hp-ya\\source\\repos\\WebForm-Application\\WebApplication1\\ClassLibrary1\\ClassLibrary1.csproj",
         "projectName": "ClassLibrary1",
-        "projectPath": "C:\\Users\\hp-ya\\source\\repos\\WebApplication1\\ClassLibrary1\\ClassLibrary1.csproj",
+        "projectPath": "C:\\Users\\hp-ya\\source\\repos\\WebForm-Application\\WebApplication1\\ClassLibrary1\\ClassLibrary1.csproj",
         "packagesPath": "C:\\Users\\hp-ya\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hp-ya\\source\\repos\\WebApplication1\\ClassLibrary1\\obj\\",
+        "outputPath": "C:\\Users\\hp-ya\\source\\repos\\WebForm-Application\\WebApplication1\\ClassLibrary1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\hp-ya\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using WebApplication1.Models;
 using Newtonsoft.Json;
+using System.Data.SqlClient;
+using System.Data;
 using System.IO;
 
 
@@ -29,10 +31,52 @@ namespace WebApplication1.Controllers
             //不能使用user 会和其他的包起冲突
             // Get the students from the database in the real application
             var userLists = Employee.GetUsers();
-            
+
+            string queryString =
+            "SELECT UserName, Address FROM dbo.user_table;";
+            SqlConnection sqlconn = new SqlConnection();
+            // 一定是从配置文件读的 connectionstring
+            // Data source: server name （localhost）数据库服务器的名字
+            // Initial catalog： 数据库名字
+            // SSPi 凡是能登录机器 就可以连数据库
+            // 添加新的账户 如何添加sa账户
+            String connectionString = "Data Source=DESKTOP-VL3NCF2;Initial Catalog=user;Integrated Security=SSPI;";
+
+            using (SqlConnection connection =
+                       new SqlConnection(connectionString))
+            {
+                SqlCommand command =
+                    new SqlCommand(queryString, connection);
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                // Call Read before accessing data.
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        String str = reader.GetString(0);
+                        
+                        Response.Write("");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No rows found.");
+                }
+                reader.Close();
+            }
+            Console.WriteLine("test");
+
+
             return View(userLists);
 
 
+        }
+        private static void ReadSingleRow(IDataRecord record)
+        {
+            Console.WriteLine(String.Format("{0}", record));
         }
         public ActionResult Create()
         {
@@ -133,7 +177,7 @@ namespace WebApplication1.Controllers
 
             // mvc routing  斜杠的方式// 
             // 太老了 
-            Response.Redirect("~/Employee/Index?Message=User_Updated");
+           // Response.Redirect("~/Employee/Index?Message=User_Updated");
         }
 
             return View(std);
