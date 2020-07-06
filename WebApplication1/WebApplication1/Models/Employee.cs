@@ -6,6 +6,14 @@ using System.IO;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
+using System.Web.Mvc;
+using WebApplication1.Models;
+
+using System.Data.SqlClient;
+using System.Data;
+using System.Configuration;
+
+
 namespace WebApplication1.Models
 {
     // 清理 只放 字段
@@ -26,6 +34,54 @@ namespace WebApplication1.Models
         public static List<Employee> GetUsers()
         {
             List<Employee> Users = new List<Employee>();
+
+
+            string queryString =
+            "SELECT UserName, Age, Address, Gender FROM dbo.user_table;";
+            SqlConnection sqlconn = new SqlConnection();
+            var connectionString = ConfigurationManager.ConnectionStrings["dbConnStr"].ConnectionString;
+            // string connectionString = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["db"].ConnectionString;
+
+            using (SqlConnection connection =
+                       new SqlConnection(connectionString))
+            {
+                SqlCommand command =
+                    new SqlCommand(queryString, connection);
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                // Call Read before accessing data.
+                if (reader.HasRows)
+                {
+                    String content = "";
+                    
+                    while (reader.Read())
+                    {
+                        content =
+                            "{\"UserId\":0" + "," + 
+                            "\"UserName\":"+ "\"" + String.Format("{0}",reader[0]) + "\"" + "," +
+                                    "\"Age\":" + String.Format("{0}", reader[1]) + "," +
+                            "\"Address\":" + "\"" + String.Format("{0}", reader[2]) + "\"" + "," +
+                            "\"Gender\":" + "\"" + String.Format("{0}", reader[3]) + "\"" + "}";
+                        var json = JsonConvert.SerializeObject(content);
+                        System.Diagnostics.Debug.WriteLine(content);
+                        
+                        Users.Add(JsonConvert.DeserializeObject<Employee>(content));
+                        
+                        
+                    }
+                   // Users = JsonConvert.DeserializeObject<List<Employee>>(content);
+                }
+                else
+                {
+                    Console.WriteLine("No rows found.");
+                }
+                reader.Close();
+            }
+            
+
+            /**
             if (File.Exists(UserFile))
             {
                 // File exists..
@@ -47,7 +103,7 @@ namespace WebApplication1.Models
                 // Re run the function
                 GetUsers();
             }
-
+            **/
             return Users;
         }
     }

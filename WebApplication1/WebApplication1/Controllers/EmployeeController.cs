@@ -7,6 +7,7 @@ using WebApplication1.Models;
 using Newtonsoft.Json;
 using System.Data.SqlClient;
 using System.Data;
+using System.Configuration;
 using System.IO;
 
 
@@ -32,44 +33,6 @@ namespace WebApplication1.Controllers
             // Get the students from the database in the real application
             var userLists = Employee.GetUsers();
 
-            string queryString =
-            "SELECT UserName, Address FROM dbo.user_table;";
-            SqlConnection sqlconn = new SqlConnection();
-            // 一定是从配置文件读的 connectionstring
-            // Data source: server name （localhost）数据库服务器的名字
-            // Initial catalog： 数据库名字
-            // SSPi 凡是能登录机器 就可以连数据库
-            // 添加新的账户 如何添加sa账户
-            String connectionString = "Data Source=DESKTOP-VL3NCF2;Initial Catalog=user;Integrated Security=SSPI;";
-
-            using (SqlConnection connection =
-                       new SqlConnection(connectionString))
-            {
-                SqlCommand command =
-                    new SqlCommand(queryString, connection);
-                connection.Open();
-
-                SqlDataReader reader = command.ExecuteReader();
-
-                // Call Read before accessing data.
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        String str = reader.GetString(0);
-                        
-                        Response.Write("");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("No rows found.");
-                }
-                reader.Close();
-            }
-            Console.WriteLine("test");
-
-
             return View(userLists);
 
 
@@ -80,7 +43,53 @@ namespace WebApplication1.Controllers
         }
         public ActionResult Create()
         {
+
             ViewBag.Submitted = false;
+            var created = false;
+            // Create the Client
+            if (HttpContext.Request.RequestType == "POST")
+            {
+                ViewBag.Submitted = true;
+                // If the request is POST, get the values from the form
+                //var id = Request.Form["id"];
+                var name = Request.Form["UserName"];
+                var address = Request.Form["Address"];
+                var gender = Request.Form["Gender"];
+                var age = Request.Form["Age"];
+                var id = 1;
+
+                // Assumes connectionString is a valid connection string.
+                Console.WriteLine(ConfigurationManager.ConnectionStrings["dbConnStr"].ConnectionString);
+                var connectionString = ConfigurationManager.ConnectionStrings["dbConnStr"].ConnectionString;
+                // string connectionString = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["db"].ConnectionString;
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    // Do work here.  
+                    if (connection.State == System.Data.ConnectionState.Open)
+                    {
+                        // 写到日志里 nlog 一个框架   读写日志的代码也是共用的方法
+                        Response.Write("<Script>alert('connected')</Script>");
+                        string MyInsert = "insert into dbo.user_table(UserId, UserName, Age, Address, Gender)values('" + id + "','" + name + "','" + age + "','" + address + "','" + gender + "')";
+                        SqlCommand MyCommand = new SqlCommand(MyInsert, connection);
+                        MyCommand.ExecuteNonQuery();
+                    }
+                }
+
+                Employee client = new Employee()
+                {
+                    //UserId = Convert.ToInt16(id),
+                    UserName = name,
+                    Address = address,
+                    Age = 20,
+                    Gender = gender,
+                };
+
+                var userLists = Employee.GetUsers();
+                userLists.Add(client);
+                created = true;
+                /**
+                ViewBag.Submitted = false;
             var created = false;
             // Create the Client
             if (HttpContext.Request.RequestType == "POST")
@@ -120,7 +129,7 @@ namespace WebApplication1.Controllers
 
                 // Now save the list on the disk
                 System.IO.File.WriteAllText(ClientFile, JsonConvert.SerializeObject(ClientList));
-
+**/
                 // Denote that the client was created
                 created = true;
             }
@@ -143,7 +152,10 @@ namespace WebApplication1.Controllers
             //Get the student from studentList sample collection for demo purpose.
             //Get the student from the database in the real application
             var std = UserList.Where(s => s.UserId == Id).FirstOrDefault();
+            Delete(Id);
+            Create();
 
+            /**
             if (HttpContext.Request.RequestType == "POST")
             {
                 var name = Request.Form["UserName"];
@@ -176,15 +188,17 @@ namespace WebApplication1.Controllers
             // Add the details to the View
 
             // mvc routing  斜杠的方式// 
-            // 太老了 
+         
            // Response.Redirect("~/Employee/Index?Message=User_Updated");
+          
         }
-
+  **/
             return View(std);
         }
 
         public ActionResult Delete(int id)
         {
+            /**
             // Get the clients
             var Clients = Employee.GetUsers();
             var deleted = false;
@@ -214,7 +228,31 @@ namespace WebApplication1.Controllers
             {
                 ViewBag.Message = "There was an error while deleting the client.";
             }
-            return View();
+            **/
+            id = id + 1;
+            string queryString =
+            "DELETE FROM dbo.user_table WHERE UserId=" + id + ";";
+            SqlConnection sqlconn = new SqlConnection();
+
+            
+
+            var connectionString = ConfigurationManager.ConnectionStrings["dbConnStr"].ConnectionString;
+            // string connectionString = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["db"].ConnectionString;
+
+            using (SqlConnection connection =
+                       new SqlConnection(connectionString))
+            {
+                SqlCommand command =
+                    new SqlCommand(queryString, connection);
+                connection.Open();
+                int r = command.ExecuteNonQuery();
+                System.Diagnostics.Debug.WriteLine(id);
+                System.Diagnostics.Debug.WriteLine("成功删除了{0}行数据", r);
+                     
+                
+                //SqlDataReader reader = command.ExecuteNonReader();
+            }
+                return View();
         }
     }
 }

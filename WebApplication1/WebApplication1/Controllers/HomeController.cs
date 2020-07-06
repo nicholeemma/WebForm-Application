@@ -9,25 +9,22 @@ using WebApplication1.Models;
 using Newtonsoft.Json;
 using System.IO;
 using System.Configuration;
+using System.Data;
+using Microsoft.ApplicationBlocks.Data;
 
 namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
     {
         public ActionResult Index()
-        {   //*** 联数据库
-          //  SqlConnection sqlconn = new SqlConnection();
-            // 一定是从配置文件读的 connectionstring
-            // Data source: server name （localhost）数据库服务器的名字
-            // Initial catalog： 数据库名字
-            // SSPi 凡是能登录机器 就可以连数据库
+        {   
             // 添加新的账户 如何添加sa账户
            // sqlconn.ConnectionString = "Data Source=DESKTOP-VL3NCF2;Initial Catalog=user;Integrated Security=SSPI;";
             // sqlconn.Open();
             /** if (sqlconn.State == System.Data.ConnectionState.Open)
              {
                  // 写到日志里 nlog 一个框架   读写日志的代码也是共用的方法
-                 Response.Write("<Script>alert('connected')</Script>");
+                
              } **/
             //mvc  code first 不给用 要用code改表结构不方便  一般来说用脚本
             // 如何读写数据库 select * ... 
@@ -48,13 +45,18 @@ namespace WebApplication1.Controllers
                 var address = Request.Form["Address"];
                 var gender = Request.Form["Gender"];
                 var age = Request.Form["Age"];
-                var id = 1;
-
+                
+                
                 // Assumes connectionString is a valid connection string.
                 Console.WriteLine(ConfigurationManager.ConnectionStrings["dbConnStr"].ConnectionString);
-                String connectionString = "Data Source=DESKTOP-VL3NCF2;Initial Catalog=user;Integrated Security=SSPI;";
-               // string connectionString = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["db"].ConnectionString;
-               using (SqlConnection connection = new SqlConnection(connectionString))
+                var connectionString = ConfigurationManager.ConnectionStrings["dbConnStr"].ConnectionString;
+                string MyInsert = "insert into dbo.user_table(UserName, Age, Address, Gender)values('" +  name + "','" + age + "','" + address + "','" + gender + "')";
+
+                SqlHelper.ExecuteNonQuery(connectionString, CommandType.Text, MyInsert);
+                // string connectionString = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["db"].ConnectionString;
+             
+                /**
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
                     // Do work here.  
@@ -63,10 +65,13 @@ namespace WebApplication1.Controllers
                         // 写到日志里 nlog 一个框架   读写日志的代码也是共用的方法
                         Response.Write("<Script>alert('connected')</Script>");
                         string MyInsert = "insert into dbo.user_table(UserId, UserName, Age, Address, Gender)values('" + id + "','" + name + "','" + age + "','" + address + "','" + gender + "')";
+                        // sqlcommand也要用using
                         SqlCommand MyCommand = new SqlCommand(MyInsert, connection);
+                        MyCommand.ExecuteNonQuery();
                     }
+                    // connection.close() 关闭连接对象
                 }
-
+                **/
                 /**
 
                 try//异常处理
@@ -90,8 +95,10 @@ namespace WebApplication1.Controllers
                     Gender = gender,
                 };
 
+                var userLists = Employee.GetUsers();
+                userLists.Add(client);
                 // Save the client in the ClientList
-
+                /**
                 var ClientFile = Employee.UserFile;
                 var ClientData = System.IO.File.ReadAllText(ClientFile);
                 List<Employee> ClientList = new List<Employee>();
@@ -105,9 +112,10 @@ namespace WebApplication1.Controllers
 
                 // Now save the list on the disk
                 System.IO.File.WriteAllText(ClientFile, JsonConvert.SerializeObject(ClientList));
-
+                 **/
                 // Denote that the client was created
                 created = true;
+               
             }
 
             if (created)
