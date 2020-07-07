@@ -5,14 +5,14 @@ using System.Web;
 using System.IO;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
 using WebApplication1.Models;
-
+using System.Threading;
 using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
-
+using Microsoft.ApplicationBlocks.Data;
 
 namespace WebApplication1.Models
 {
@@ -20,8 +20,9 @@ namespace WebApplication1.Models
     public class Employee
     {
         // production环境联数据库， App_Data 可以放Access，SQL Server类似的一个，XML
-        public static string UserFile = HttpContext.Current.Server.MapPath("~/App_Data/Users.json");
-
+       
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         //[Display(Name = "Name")]
         public string UserName { get; set; }
@@ -30,6 +31,16 @@ namespace WebApplication1.Models
         //nvarchar 校验长度不一样 中文/英文
         public String Address { get; set; }
         public String Gender { get; set; }
+       // public static int globalID = 1;
+       
+        public Employee(int _id, string _UserName, String _Address, int _Age, String _Gender)
+        {
+            this.Address = _Address;
+            this.Gender = _Gender;
+            this.UserName = _UserName;
+            this.Age = _Age;
+            this.UserId = _id;
+        }
 
         public static List<Employee> GetUsers()
         {
@@ -37,21 +48,13 @@ namespace WebApplication1.Models
 
 
             string queryString =
-            "SELECT UserName, Age, Address, Gender FROM dbo.user_table;";
+            "SELECT UserId, UserName, Age, Address, Gender FROM dbo.user_table;";
             SqlConnection sqlconn = new SqlConnection();
             var connectionString = ConfigurationManager.ConnectionStrings["dbConnStr"].ConnectionString;
-            // string connectionString = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["db"].ConnectionString;
-
-            using (SqlConnection connection =
-                       new SqlConnection(connectionString))
-            {
-                SqlCommand command =
-                    new SqlCommand(queryString, connection);
-                connection.Open();
-
-                SqlDataReader reader = command.ExecuteReader();
-
-                // Call Read before accessing data.
+            sqlconn.ConnectionString = connectionString;
+           
+            SqlDataReader reader = SqlHelper.ExecuteReader(sqlconn, CommandType.Text, queryString);
+          
                 if (reader.HasRows)
                 {
                     String content = "";
@@ -59,11 +62,11 @@ namespace WebApplication1.Models
                     while (reader.Read())
                     {
                         content =
-                            "{\"UserId\":0" + "," + 
-                            "\"UserName\":"+ "\"" + String.Format("{0}",reader[0]) + "\"" + "," +
-                                    "\"Age\":" + String.Format("{0}", reader[1]) + "," +
-                            "\"Address\":" + "\"" + String.Format("{0}", reader[2]) + "\"" + "," +
-                            "\"Gender\":" + "\"" + String.Format("{0}", reader[3]) + "\"" + "}";
+                            "{\"UserId\":" + String.Format("{0}", reader[0])+ "," + 
+                            "\"UserName\":"+ "\"" + String.Format("{0}",reader[1]) + "\"" + "," +
+                                    "\"Age\":" + String.Format("{0}", reader[2]) + "," +
+                            "\"Address\":" + "\"" + String.Format("{0}", reader[3]) + "\"" + "," +
+                            "\"Gender\":" + "\"" + String.Format("{0}", reader[4]) + "\"" + "}";
                         var json = JsonConvert.SerializeObject(content);
                         System.Diagnostics.Debug.WriteLine(content);
                         
@@ -78,7 +81,7 @@ namespace WebApplication1.Models
                     Console.WriteLine("No rows found.");
                 }
                 reader.Close();
-            }
+            
             
 
             /**

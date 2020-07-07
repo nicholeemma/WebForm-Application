@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
 using System.IO;
+using Microsoft.ApplicationBlocks.Data;
 
 
 
@@ -17,15 +18,7 @@ namespace WebApplication1.Controllers
     public class EmployeeController : Controller
     {
         // GET: User
-        IList<Employee> UserList = new List<Employee>{
-                            new Employee() { UserId = 1, UserName = "John", Age = 18, Address ="jiangsu", Gender = "20-30" } ,
-                            new Employee() { UserId = 2, UserName = "Steve",  Age = 21, Address ="jiangsu", Gender = "20-30"  } ,
-                            new Employee() { UserId = 3, UserName = "Bill",  Age = 25, Address ="jiangsu", Gender = "20-30" } ,
-                            new Employee() { UserId = 4, UserName = "Ram" , Age = 20, Address ="jiangsu", Gender = "20-30"  } ,
-                            new Employee() { UserId = 5, UserName = "Ron" , Age = 31, Address ="jiangsu", Gender = "20-30"  } ,
-                            new Employee() { UserId = 4, UserName = "Chris" , Age = 17, Address ="jiangsu", Gender = "20-30" } ,
-                            new Employee() { UserId = 4, UserName = "Rob" , Age = 19, Address ="jiangsu", Gender = "20-30"  }
-                        };
+        IList<Employee> UserList = new List<Employee>();
         public ActionResult Index()
         {
             // GET: User
@@ -51,86 +44,25 @@ namespace WebApplication1.Controllers
             {
                 ViewBag.Submitted = true;
                 // If the request is POST, get the values from the form
-                //var id = Request.Form["id"];
+               
                 var name = Request.Form["UserName"];
                 var address = Request.Form["Address"];
                 var gender = Request.Form["Gender"];
-                var age = Request.Form["Age"];
-                var id = 1;
+                var age = Int16.Parse(Request.Form["Age"]);
 
-                // Assumes connectionString is a valid connection string.
                 Console.WriteLine(ConfigurationManager.ConnectionStrings["dbConnStr"].ConnectionString);
                 var connectionString = ConfigurationManager.ConnectionStrings["dbConnStr"].ConnectionString;
-                // string connectionString = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["db"].ConnectionString;
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
-                    // Do work here.  
-                    if (connection.State == System.Data.ConnectionState.Open)
-                    {
-                        // 写到日志里 nlog 一个框架   读写日志的代码也是共用的方法
-                        Response.Write("<Script>alert('connected')</Script>");
-                        string MyInsert = "insert into dbo.user_table(UserId, UserName, Age, Address, Gender)values('" + id + "','" + name + "','" + age + "','" + address + "','" + gender + "')";
-                        SqlCommand MyCommand = new SqlCommand(MyInsert, connection);
-                        MyCommand.ExecuteNonQuery();
-                    }
-                }
+                string MyInsert = "insert into dbo.user_table(UserName, Age, Address, Gender)values('" + name + "','" + age + "','" + address + "','" + gender + "');" + "SELECT @@IDENTITY;";
 
-                Employee client = new Employee()
-                {
-                    //UserId = Convert.ToInt16(id),
-                    UserName = name,
-                    Address = address,
-                    Age = 20,
-                    Gender = gender,
-                };
+                var id = SqlHelper.ExecuteNonQuery(connectionString, CommandType.Text, MyInsert);
+                System.Diagnostics.Debug.WriteLine(id);
+
+                Employee client = new Employee(id, name, address, age, gender);
 
                 var userLists = Employee.GetUsers();
                 userLists.Add(client);
                 created = true;
-                /**
-                ViewBag.Submitted = false;
-            var created = false;
-            // Create the Client
-            if (HttpContext.Request.RequestType == "POST")
-            {
-                ViewBag.Submitted = true;
-                // If the request is POST, get the values from the form
-                //var id = Request.Form["id"];
-                var name = Request.Form["UserName"];
-                var address = Request.Form["Address"];
-                var gender = Request.Form["gender"];
-
-
-                // Create a new Client for these details.
-                Employee client = new Employee()
-                {
-                    //UserId = Convert.ToInt16(id),
-                    UserName = name,
-                    Address = address,
-                    Age = 20,
-                    Gender = gender,
-                };
-
-                // Save the client in the ClientList
-                var ClientFile = Employee.UserFile;
-                // 用try catch final
-                // 工具函数 放到一个共用的地方
-                // 建一个utility 目录，和controllers平级
-                var ClientData = System.IO.File.ReadAllText(ClientFile);
-                List<Employee> ClientList = new List<Employee>();
-                ClientList = JsonConvert.DeserializeObject<List<Employee>>(ClientData);
-
-                if (ClientList == null)
-                {
-                    ClientList = new List<Employee>();
-                }
-                ClientList.Add(client);
-
-                // Now save the list on the disk
-                System.IO.File.WriteAllText(ClientFile, JsonConvert.SerializeObject(ClientList));
-**/
-                // Denote that the client was created
+               
                 created = true;
             }
 
@@ -155,44 +87,7 @@ namespace WebApplication1.Controllers
             Delete(Id);
             Create();
 
-            /**
-            if (HttpContext.Request.RequestType == "POST")
-            {
-                var name = Request.Form["UserName"];
-                var address = Request.Form["address"];
-                var age = Request.Form["age"];
-                var gender = Request.Form["gender"];
-
-
-                // Get all of the clients
-                var clints = Employee.GetUsers();
-
-            foreach (Employee client in clints)
-            {
-                // Find the client
-                if (client.UserId== Id)
-                {
-                    // Client found, now update his properties and save it.
-                    client.UserName = name;
-                    client.Address = address;
-                    client.Age = 20;
-                    client.Gender = gender;
-                    // Break through the loop
-                    break;
-                }
-            }
-
-            // Update the clients in the disk
-            System.IO.File.WriteAllText(Employee.UserFile, JsonConvert.SerializeObject(clints));
-
-            // Add the details to the View
-
-            // mvc routing  斜杠的方式// 
-         
-           // Response.Redirect("~/Employee/Index?Message=User_Updated");
-          
-        }
-  **/
+            
             return View(std);
         }
 
@@ -229,16 +124,21 @@ namespace WebApplication1.Controllers
                 ViewBag.Message = "There was an error while deleting the client.";
             }
             **/
-            id = id + 1;
+            // id = id + 1;
+            System.Diagnostics.Debug.WriteLine(id);
             string queryString =
             "DELETE FROM dbo.user_table WHERE UserId=" + id + ";";
-            SqlConnection sqlconn = new SqlConnection();
+            //SqlConnection sqlconn = new SqlConnection();
 
             
 
+           
             var connectionString = ConfigurationManager.ConnectionStrings["dbConnStr"].ConnectionString;
-            // string connectionString = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["db"].ConnectionString;
+           // string MyInsert = "insert into dbo.user_table(UserName, Age, Address, Gender)values('" + name + "','" + age + "','" + address + "','" + gender + "')";
 
+            SqlHelper.ExecuteNonQuery(connectionString, CommandType.Text, queryString);
+
+            /**
             using (SqlConnection connection =
                        new SqlConnection(connectionString))
             {
@@ -252,6 +152,7 @@ namespace WebApplication1.Controllers
                 
                 //SqlDataReader reader = command.ExecuteNonReader();
             }
+            **/
                 return View();
         }
     }

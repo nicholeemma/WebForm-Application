@@ -59,43 +59,27 @@
             <div class="col-lg-12 text-center">
                 <h1 class="mt-5">ASP .NET Web MVC Example</h1>
                 <p class="lead">This is a web application implemented by bootstrap and C#</p>
-                <div>
+                <div style="font-size:20px; font-family:'Times New Roman', Times, serif">
                     
                     <form action="#" method="post">
-                        姓名<textarea style="margin: 1px 0 2px" name="UserName"> </textarea> <br />
-                        年龄<textarea type="text" style="margin: 1px 0 2px" name="Age"> </textarea><br />
-                        地址<textarea type="text" style="margin: 1px 0 2px" name="Address"> </textarea><br />
-                        性别<textarea type="radio" style="margin: 1px 0 2px" name="Gender"></textarea><br />
+
+                        Name 
+                        <textarea style="margin: 5px 5px 5px; width:auto; height :36px" name="UserName"> </textarea> 
+                        <br>
+                        Age 
+                        <input type="number" style="margin: 5px 5px 5px" name="Age"/> 
+                        <br>
+                        Address 
+                        <textarea type="text" style="margin: 5px 5px 5px; width:auto; height :36px" name="Address"> </textarea>
+                        <br>
+                        Gender 
+                        <input type="radio"  style="margin: 5px 5px 5px" id="female" name="Gender" value="female">Female
+                        <input type="radio" id="male" name="Gender" value="male">Male
+                        <br>
+
                         <button type="submit" value="Save"> Submit</button>
                     </form>
                     <form>
-                     
-
-
-                        <li>
-
-                            <input type="radio" id="male" name="XX">男
-                            <input type="radio" id="female" name="XX">女
-                        </li>
-
-                        <li>
-
-
-                            <select id="age">
-                                <option value="20">20</option>
-                                <option value="21">21</option>
-                                <option value="22">22</option>
-                                <option value="23">23</option>
-                                <option value="24">24</option>
-                                <option value="25">25</option>
-                                <option value="26">26</option>
-                                <option value="27">27</option>
-                                <option value="28">28</option>
-
-                            </select>
-                        </li>
-
-                        <li>
                             地址
                             <select id="province" onchange="cityAdd(this.value);">
                                 <option value="0" selected="selected">--请选择--</option>
@@ -108,15 +92,12 @@
 
                             <select id="city">
                             </select>
-                        </li>
+                       
                         <button>Submit</button>
 
                     </form>
                 </div>
-                <ul class="list-unstyled">
-                    <li>Bootstrap 4.5.0</li>
-                    <li>jQuery 3.5.1</li>
-                </ul>
+               
             </div>
         </div>
     </div>
