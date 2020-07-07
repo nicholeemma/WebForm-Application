@@ -52,13 +52,13 @@ namespace WebApplication1.Controllers
                 };**/
 
                 var userLists = Employee.GetUsers();
-                userLists.Add(client);
+               //  userLists.Add(client);
                 
                 created = true;
                 Response.Redirect("/employee");
 
             }
-
+            /**
             if (created)
             {
                 ViewBag.Message = "Client was created successfully.";
@@ -66,7 +66,7 @@ namespace WebApplication1.Controllers
             else
             {
                 ViewBag.Message = "There was an error while creating the client.";
-            }
+            }**/
 
             
             return View();
