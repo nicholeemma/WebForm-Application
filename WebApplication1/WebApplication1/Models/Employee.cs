@@ -45,69 +45,9 @@ namespace WebApplication1.Models
         public static List<Employee> GetUsers()
         {
             List<Employee> Users = new List<Employee>();
-
-
-            string queryString =
-            "SELECT UserId, UserName, Age, Address, Gender FROM dbo.user_table;";
-            SqlConnection sqlconn = new SqlConnection();
-            var connectionString = ConfigurationManager.ConnectionStrings["dbConnStr"].ConnectionString;
-            sqlconn.ConnectionString = connectionString;
-           
-            SqlDataReader reader = SqlHelper.ExecuteReader(sqlconn, CommandType.Text, queryString);
-          
-                if (reader.HasRows)
-                {
-                    String content = "";
-                    
-                    while (reader.Read())
-                    {
-                        content =
-                            "{\"UserId\":" + String.Format("{0}", reader[0])+ "," + 
-                            "\"UserName\":"+ "\"" + String.Format("{0}",reader[1]) + "\"" + "," +
-                                    "\"Age\":" + String.Format("{0}", reader[2]) + "," +
-                            "\"Address\":" + "\"" + String.Format("{0}", reader[3]) + "\"" + "," +
-                            "\"Gender\":" + "\"" + String.Format("{0}", reader[4]) + "\"" + "}";
-                        var json = JsonConvert.SerializeObject(content);
-                        System.Diagnostics.Debug.WriteLine(content);
-                        
-                        Users.Add(JsonConvert.DeserializeObject<Employee>(content));
-                        
-                        
-                    }
-                   // Users = JsonConvert.DeserializeObject<List<Employee>>(content);
-                }
-                else
-                {
-                    Console.WriteLine("No rows found.");
-                }
-                reader.Close();
+            DbHelper.selectUser(Users);
             
-            
-
-            /**
-            if (File.Exists(UserFile))
-            {
-                // File exists..
-                string content = File.ReadAllText(UserFile);
-                // Deserialize the objects 
-                Users = JsonConvert.DeserializeObject<List<Employee>>(content);
-
-                // Returns the clients, either empty list or containing the Client(s).
-                return Users;
-            }
-            else
-            {
-                // Create the file 
-                File.Create(UserFile).Close();
-                // Write data to it; [] means an array, 
-                // List<Client> would throw error if [] is not wrapping text
-                File.WriteAllText(UserFile, "[]");
-
-                // Re run the function
-                GetUsers();
-            }
-            **/
             return Users;
-        }
+        }  
     }
 }
