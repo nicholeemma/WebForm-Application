@@ -1,0 +1,6 @@
+C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\ClassLibrary2\bin\Debug\ClassLibrary2.dll
+C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\ClassLibrary2\bin\Debug\ClassLibrary2.pdb
+C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\ClassLibrary2\obj\Debug\CommonLibrary.csprojAssemblyReference.cache
+C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\ClassLibrary2\obj\Debug\CommonLibrary.csproj.CoreCompileInputs.cache
+C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\ClassLibrary2\obj\Debug\ClassLibrary2.dll
+C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\ClassLibrary2\obj\Debug\ClassLibrary2.pdb

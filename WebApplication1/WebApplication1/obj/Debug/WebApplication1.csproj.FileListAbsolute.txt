@@ -132,7 +132,6 @@ C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\WebApplication1\
 C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\WebApplication1\bin\roslyn\VBCSCompiler.exe
 C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\WebApplication1\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\WebApplication1\bin\Antlr3.Runtime.dll
-C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\WebApplication1\bin\ClassLibrary1.dll
 C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\WebApplication1\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\WebApplication1\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\WebApplication1\bin\Newtonsoft.Json.dll
@@ -144,7 +143,6 @@ C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\WebApplication1\
 C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\WebApplication1\bin\System.Web.WebPages.dll
 C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\WebApplication1\bin\System.Web.WebPages.Razor.dll
 C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\WebApplication1\bin\WebGrease.dll
-C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\WebApplication1\bin\ClassLibrary1.pdb
 C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\WebApplication1\bin\System.Web.Helpers.xml
 C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\WebApplication1\bin\System.Web.Mvc.xml
 C:\Users\hp-ya\source\repos\WebForm-Application\WebApplication1\WebApplication1\bin\System.Web.Optimization.xml

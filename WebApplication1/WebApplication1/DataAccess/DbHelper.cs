@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-using System.Web.Mvc;
+
 using System.Data.SqlClient;
-using WebApplication1.Models;
-using Newtonsoft.Json;
+using Microsoft.ApplicationBlocks.Data;
+
 using System.IO;
 using System.Configuration;
 using System.Data;
-using Microsoft.ApplicationBlocks.Data;
+using WebApplication1.Models;
+
 using System.Net.Sockets;
 
-namespace WebApplication1
+namespace CommonLibrary
 {
     public class DbHelper
     {
@@ -71,10 +72,10 @@ namespace WebApplication1
                                 "\"Age\":" + String.Format("{0}", reader[2]) + "," +
                         "\"Address\":" + "\"" + String.Format("{0}", reader[3]) + "\"" + "," +
                         "\"Gender\":" + "\"" + String.Format("{0}", reader[4]) + "\"" + "}";
-                    var json = JsonConvert.SerializeObject(content);
+                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(content);
                     System.Diagnostics.Debug.WriteLine(content);
 
-                    Users.Add(JsonConvert.DeserializeObject<Employee>(content));
+                    Users.Add(Newtonsoft.Json.JsonConvert.DeserializeObject<Employee>(content));
 
                 }
             } else

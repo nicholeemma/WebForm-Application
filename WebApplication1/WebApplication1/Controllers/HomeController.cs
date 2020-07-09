@@ -11,7 +11,7 @@ using System.IO;
 using System.Configuration;
 using System.Data;
 using Microsoft.ApplicationBlocks.Data;
-
+using CommonLibrary;
 namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
@@ -28,6 +28,8 @@ namespace WebApplication1.Controllers
                 var address = Request.Form["Address"];
                 var gender = Request.Form["Gender"];
                 var age = Int16.Parse(Request.Form["Age"]);
+
+                //TODO 调用web api
                 DbHelper.createUser(name, address, gender, age);
                 Response.Redirect("/employee");
             }

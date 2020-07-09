@@ -10,6 +10,8 @@ using System.Data;
 using System.Configuration;
 using System.IO;
 using Microsoft.ApplicationBlocks.Data;
+using WebApplication1.Service;
+using CommonLibrary;
 
 
 
@@ -25,16 +27,13 @@ namespace WebApplication1.Controllers
             // GET: User
             //不能使用user 会和其他的包起冲突
             // Get the students from the database in the real application
-            var userLists = Employee.GetUsers();
+            var userLists = EmployeeRepo.GetUsers();
 
             return View(userLists);
 
 
         }
-        private static void ReadSingleRow(IDataRecord record)
-        {
-            Console.WriteLine(String.Format("{0}", record));
-        }
+       
         public ActionResult Create()
         {
 
