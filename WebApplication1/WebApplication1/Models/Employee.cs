@@ -23,6 +23,8 @@ namespace WebApplication1.Models
         public int UserId { get; set; }
        
         public string UserName { get; set; }
+        //加点别的东西 模型层的校验 有的在service 复杂
+        // js校验过模型层嘛？ js和后端都要做校验 js会被绕过
         [Range(5,50)]
         public int Age { get; set; }
         //nvarchar 校验长度不一样 中文/英文

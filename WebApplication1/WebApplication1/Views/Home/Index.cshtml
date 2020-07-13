@@ -60,17 +60,23 @@
                 <h1 class="mt-5">ASP .NET Web MVC Example</h1>
                 <p class="lead">This is a web application implemented by bootstrap and C#</p>
                 <div style="font-size:20px; font-family:'Times New Roman', Times, serif">
-                    
+                    <!--
+                        1. submit 用jquery的实现   
+                        2. jquery加到bundle
+                        3. 动态元素加ID，方便自动化测试 solved
+                        4. Validation （js 和 model）
+                        5. 不能有in-line css
+                    -->
                     <form action="#" method="post">
 
                         Name 
-                        <textarea style="margin: 5px 5px 5px; width:auto; height :36px" name="UserName"> </textarea> 
+                        <textarea id ="username"style="margin: 5px 5px 5px; width:auto; height :36px" name="UserName"> </textarea> 
                         <br>
                         Age 
-                        <input type="number" style="margin: 5px 5px 5px" name="Age"/> 
+                        <input id="age" type="number" style="margin: 5px 5px 5px" name="Age"/> 
                         <br>
                         Address 
-                        <textarea type="text" style="margin: 5px 5px 5px; width:auto; height :36px" name="Address"> </textarea>
+                        <textarea id ="address" type="text" style="margin: 5px 5px 5px; width:auto; height :36px" name="Address"> </textarea>
                         <br>
                         Gender 
                         <input type="radio"  style="margin: 5px 5px 5px" id="female" name="Gender" value="female">Female

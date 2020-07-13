@@ -8,10 +8,13 @@ using System.Data.SqlClient;
 using WebApplication1.Models;
 using Newtonsoft.Json;
 using System.IO;
+using System.Net;
 using System.Configuration;
 using System.Data;
 using Microsoft.ApplicationBlocks.Data;
-using CommonLibrary;
+
+using WebApplication1.Service;
+
 namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
@@ -23,14 +26,17 @@ namespace WebApplication1.Controllers
             if (HttpContext.Request.RequestType == "POST")
             {
                 ViewBag.Submitted = true;
-                // If the request is POST, get the values from the form
+               
                 var name = Request.Form["UserName"];
                 var address = Request.Form["Address"];
                 var gender = Request.Form["Gender"];
                 var age = Int16.Parse(Request.Form["Age"]);
 
                 //TODO 调用web api
-                DbHelper.createUser(name, address, gender, age);
+                //  DbHelper.createUser(name, address, gender, age);
+
+                ApiHelper.createUser(name, address, gender, age);
+               
                 Response.Redirect("/employee");
             }
             return View();

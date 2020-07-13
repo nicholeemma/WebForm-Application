@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication1.Models;
@@ -11,10 +12,10 @@ using System.Configuration;
 using System.IO;
 using Microsoft.ApplicationBlocks.Data;
 using WebApplication1.Service;
-using CommonLibrary;
 
 
-
+using System.Net.Http;
+using System.Text;
 
 namespace WebApplication1.Controllers
 {
@@ -23,15 +24,8 @@ namespace WebApplication1.Controllers
         // GET: User
         IList<Employee> UserList = new List<Employee>();
         public ActionResult Index()
-        {
-            // GET: User
-            //不能使用user 会和其他的包起冲突
-            // Get the students from the database in the real application
-            var userLists = EmployeeRepo.GetUsers();
-
-            return View(userLists);
-
-
+        {         
+            return View(ApiHelper.getUser());
         }
        
         public ActionResult Create()
@@ -50,8 +44,8 @@ namespace WebApplication1.Controllers
                 var gender = Request.Form["Gender"];
                 var age = Int16.Parse(Request.Form["Age"]);
 
-                DbHelper.createUser(name, address, gender, age);
-                
+                ApiHelper.createUser(name, address, gender, age);
+       
             }
 
             if (created)

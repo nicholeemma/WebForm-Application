@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebAppli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLibrary", "ClassLibrary2\CommonLibrary.csproj", "{4C4A3C52-31B6-4B5C-9431-F9A91958125E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiEmployee", "..\..\ApiEmployee\ApiEmployee\ApiEmployee.csproj", "{95B1CA90-B427-4980-A1ED-F57D8042988C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{4C4A3C52-31B6-4B5C-9431-F9A91958125E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C4A3C52-31B6-4B5C-9431-F9A91958125E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C4A3C52-31B6-4B5C-9431-F9A91958125E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95B1CA90-B427-4980-A1ED-F57D8042988C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95B1CA90-B427-4980-A1ED-F57D8042988C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95B1CA90-B427-4980-A1ED-F57D8042988C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95B1CA90-B427-4980-A1ED-F57D8042988C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
