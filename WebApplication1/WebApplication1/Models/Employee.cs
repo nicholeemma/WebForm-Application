@@ -25,12 +25,13 @@ namespace WebApplication1.Models
         public string UserName { get; set; }
         //加点别的东西 模型层的校验 有的在service 复杂
         // js校验过模型层嘛？ js和后端都要做校验 js会被绕过
-        [Range(5,50)]
+        [Range(1, 100, ErrorMessage = "Price must be between $1 and $100")]
         public int Age { get; set; }
         //nvarchar 校验长度不一样 中文/英文
         public String Address { get; set; }
         public String Gender { get; set; }
        
+        public Employee () { }
         public Employee(int _id, string _UserName, String _Address, int _Age, String _Gender)
         {
             this.Address = _Address;

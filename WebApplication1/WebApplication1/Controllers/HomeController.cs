@@ -12,7 +12,7 @@ using System.Net;
 using System.Configuration;
 using System.Data;
 using Microsoft.ApplicationBlocks.Data;
-
+using CommonLibrary;
 using WebApplication1.Service;
 
 namespace WebApplication1.Controllers
@@ -33,7 +33,7 @@ namespace WebApplication1.Controllers
                 var age = Int16.Parse(Request.Form["Age"]);
 
                 //TODO 调用web api
-                //  DbHelper.createUser(name, address, gender, age);
+               //   DbHelper.createUser(name, address, gender, age);
 
                 ApiHelper.createUser(name, address, gender, age);
                

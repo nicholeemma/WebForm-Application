@@ -12,10 +12,11 @@ using System.Configuration;
 using System.IO;
 using Microsoft.ApplicationBlocks.Data;
 using WebApplication1.Service;
-
+using CommonLibrary;
 
 using System.Net.Http;
 using System.Text;
+
 
 namespace WebApplication1.Controllers
 {
@@ -23,42 +24,69 @@ namespace WebApplication1.Controllers
     {
         // GET: User
         IList<Employee> UserList = new List<Employee>();
+        public EmployeeController()
+        {
+            
+        }
+        
         public ActionResult Index()
         {         
             return View(ApiHelper.getUser());
         }
-       
+       /**
         public ActionResult Create()
         {
 
             ViewBag.Submitted = false;
             var created = false;
             // Create the Client
-            if (HttpContext.Request.RequestType == "POST")
+            if (ModelState.IsValid)
             {
-                ViewBag.Submitted = true;
-                // If the request is POST, get the values from the form
-               
-                var name = Request.Form["UserName"];
-                var address = Request.Form["Address"];
-                var gender = Request.Form["Gender"];
-                var age = Int16.Parse(Request.Form["Age"]);
+                if (HttpContext.Request.RequestType == "POST")
+                {
+                    ViewBag.Submitted = true;
+                    // If the request is POST, get the values from the form
 
-                ApiHelper.createUser(name, address, gender, age);
-       
-            }
+                    var name = Request.Form["UserName"];
+                    var address = Request.Form["Address"];
+                    var gender = Request.Form["Gender"];
+                    var age = Int16.Parse(Request.Form["Age"]);
 
-            if (created)
-            {
-                ViewBag.Message = "Client was created successfully.";
-            }
-            else
-            {
-                ViewBag.Message = "There was an error while creating the client.";
+                    ApiHelper.createUser(name, address, gender, age);
+
+                }
+
+                if (created)
+                {
+                    ViewBag.Message = "Client was created successfully.";
+                }
+                else
+                {
+                    ViewBag.Message = "There was an error while creating the client.";
+                }
             }
             return View();
         }
-        
+        **/
+        public ActionResult Create()
+        {
+            return View();
+        }
+        // POST: /Movies/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Employee e)
+        {
+            if (ModelState.IsValid)
+            {
+                ApiHelper.createUser(e.UserName, e.Address, e.Gender, e.Age);
+                return RedirectToAction("Index");
+            }
+            return View(e);
+        }
+        /**
         public ActionResult Edit(int Id)
         {
             
@@ -77,6 +105,29 @@ namespace WebApplication1.Controllers
 
             }
                 return View(std);
+        }
+        **/
+        public ActionResult Edit(int id)
+        {
+            var std = UserList.Where(s => s.UserId == id).FirstOrDefault();
+
+            return View(std);
+        }
+
+
+
+        [HttpPost]
+        public ActionResult Edit(Employee std)
+        {
+            if (ModelState.IsValid)
+            {
+
+                //write code to update student 
+
+                return RedirectToAction("Index");
+            }
+
+            return View(std);
         }
 
         public ActionResult Delete(int id)
